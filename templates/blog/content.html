@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block title %} blog title {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
     <div>
         <h2>广告</h2>
         <p>跟老齐学：www.itdiffer.com</p>
-        <img width="200px" src="https://raw.githubbusercontent.com/qiwsir/DjangoPracticeProject/master/python-book2.png">
+        <img width="200px" src="{% static 'images/python-book2.png' %}">
     </div>
 </div>
 {% endblock %}
