@@ -14,7 +14,7 @@
     <p>Input your username and password</p>‘
 
     {% if next %} <!-- 新增-->
-    <form class="form-horizontal" action="{% url 'account:user_login' %}? next={{next}}" method="post" >
+    <form class="form-horizontal" action="{% url 'account:user_login' %}? next={{next}}" method="post">
     {% else %}
     <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">
     {% endif %}
@@ -36,5 +36,4 @@
         <input type="submit" class="btn btn-primary btn-lg" value="Login">
     </form>
 </div>
-
 {% endblock %}

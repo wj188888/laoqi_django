@@ -103,3 +103,13 @@ LOGIN_REDIRECT_URL = '/blog/'
 
 # 防止没有登录修改密码，跳转到django默认页面，报错,这样可以直接调到登录界面，省去了后续的麻烦
 LOGIN_URL = '/account/login/'
+
+# 设置密码找回邮箱
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = "572534940@qq.com"
+EMAIL_HOST_PASSWORD = "1973702576wj"
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "572534940@qq.com"
+# 将邮件直接显示在控制台
+# EMAIL_BACKED='django.core.mail.backends.console.EmailBackend'
