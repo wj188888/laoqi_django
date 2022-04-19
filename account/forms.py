@@ -24,12 +24,12 @@ class RegistrationForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ("phone", "birth")
+        fields = ("phone", "birth", )
 
 class UserInfoForm(forms.ModelForm):
     class Meta:
         model = UserInfo
-        fields = ("school", "company", "profession", "address", "aboutme")
+        fields = ("school", "company", "profession", "address", "aboutme", )
 
 class UserForm(forms.ModelForm):
     class Meta:
