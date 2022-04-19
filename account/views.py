@@ -84,6 +84,7 @@ def mysql_edit(request):
             user_cd = user_form.cleaned_data
             userprofile_cd = userprofile_form.cleaned_data
             userinfo_cd = userinfo_form.cleaned_data
+
             request.user.email = user_cd['email']
             userprofile.birth = userprofile_cd['birth']
             userprofile.phone = userprofile_cd['phone']
