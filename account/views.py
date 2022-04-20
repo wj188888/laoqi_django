@@ -110,3 +110,6 @@ def mysql_edit(request):
                        "userprofile_form": userprofile_form,
                        "userinfo_form": userinfo_form
                       })
+
+def my_image(request):
+    return render(request, 'account/imagecrop.html',)
