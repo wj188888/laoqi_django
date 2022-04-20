@@ -111,5 +111,15 @@ def mysql_edit(request):
                        "userinfo_form": userinfo_form
                       })
 
+@login_required(login_url='/account/login/')
 def my_image(request):
-    return render(request, 'account/imagecrop.html',)
+    if request.method == 'POST':
+        img = request.POST['img']
+        userinfo = UserInfo.objects.get(user=request.user.id) if \
+            hasattr(request.user, 'userinfo') else \
+            UserInfo.objects.create(user=request.user)
+        userinfo.photo = img
+        userinfo.save()
+        return HttpResponse("1")
+    else:
+        return render(request, 'account/imagecrop.html',)

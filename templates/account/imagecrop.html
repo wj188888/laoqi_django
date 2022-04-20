@@ -7,9 +7,9 @@
     </div>
     <div class="action">
         <!-- <input type="file" style="width: 200px"> -->
-        <div>
-            <label></label>
-            <a></a>
+        <div class="new-contentarea tc">
+            <a href="javascript:void(0)" class="upload-img"></a>
+            <label for="upload-file">请先选择图片...</label>
             <input type="file" class="" name="upload-file" id="upload-file" />
         </div>
         <input type="button" id="btnCrop" class="Btnsty_peyton" value="OK">
@@ -18,9 +18,10 @@
     </div>
     <div class="cropped"></div>
 </div>
-    <script></script>
-    <script></script>
-    <script></script>
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cropbox-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
+<script type="text/javascript">
     $(window).load(function() {
         var options =
         {
@@ -39,7 +40,26 @@
             reader.readAsDataURL(this.files[0]);
         })
         $('#btnCrop').on('click', function() {
-            alert("图片上传了")
+            //alert("图片上传了")
+            $.ajax({
+                //声明提交地址
+                url: '{% url "account:my_image" %}',
+                //声明提交方式，有get和post两种，此处使用POST
+                type: 'POST',
+                //声明提交的数据内容
+                data: {"img": img},
+                //提交成功后，根据反馈结果实现页面跳转
+                success: function(e) {
+                    //location.href = "{% url 'account:my_information' %}"
+                    //下面是新增的代码
+                    //views视图函数中的return HttpResponse("1"),其数值在这里被运用
+                    if(e == "1") {
+                        parent.location.reload();
+                    }else {
+                        alert("sorry, you are not lucky. the picture can't been uploaded.")
+                    }
+                },
+            });
         })
         function getImg() {
             img = cropper.getDataURL();
@@ -57,6 +77,6 @@
         $('#btnZoomOut').on('click', function() {
             cropper.zoomOut();
         })
-
-
     });
+</script>
+
