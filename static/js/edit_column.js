@@ -11,7 +11,21 @@ function edit_column(the, column_id) {
         btn: ['确定', '取消'],
         yes: function(index, layero) {
             new_name = $("#new_name").val();
-            $
-        }
-    })
+            $.ajax({
+                url: "{% url 'article:rename_article_column' %}",
+                type: "POST",
+                data: {
+                    "column_id": column_id, "column_name": new_name
+                },
+                success: function(e) {
+                    if(e=="1"){
+                        parents.location.reload();
+                        layer.msg("good");
+                    }else{
+                        layer.msg("新的名称没有保存，修改失败。")
+                    }
+                },
+            });
+        },
+    });
 }

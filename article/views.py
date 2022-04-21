@@ -24,7 +24,7 @@ def article_column(request):
         return HttpResponse("1")
 
 @login_required(login_url='/account/login')
-@require_POST
+# @require_POST
 @csrf_exempt
 def rename_article_column(request):
     column_name = request.POST["column_name"]
@@ -36,3 +36,15 @@ def rename_article_column(request):
         return HttpResponse("1")
     except:
         return HttpResponse("0")
+
+@login_required(login_url='/account/login')
+# @require_POST
+@csrf_exempt
+def del_article_column(request):
+    column_id = request.POST['column_id']
+    try:
+        line = ArticleColumn.objects.get(id=column_id)
+        line.delete()
+        return HttpResponse("1")
+    except:
+        return HttpResponse("2")
