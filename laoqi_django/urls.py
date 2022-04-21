@@ -7,4 +7,6 @@ urlpatterns = [
     # 防止硬编码
     path('blog/', include('blog.urls', namespace='blog')),
     path('account/', include('account.urls', namespace='account')),
+    path('article/', include('article.urls', namespace='article')),
+
 ]
