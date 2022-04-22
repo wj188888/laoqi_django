@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import ArticleColumn
-from .forms import ArticleColumnForm
+from .forms import ArticleColumnForm, ArticlePostForm
 
 @login_required(login_url='/account/login/')
 @csrf_exempt
@@ -48,3 +48,9 @@ def del_article_column(request):
         return HttpResponse("1")
     except:
         return HttpResponse("2")
+
+@login_required(login_url='/account/login')
+@csrf_exempt
+def article_post(request):
+    if request.method == 'POST':
+        article_post_form = Art
