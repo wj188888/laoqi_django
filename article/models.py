@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 
 class ArticleColumn(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
@@ -24,14 +25,15 @@ class ArticlePost(models.Model):
         ordering = ("title", )
         index_together = (('id', 'slug')) # 对数据库这两个字段建立索引，在后面，会通过每篇文章的id和slug获取该文章对象
 
-        def __str__(self):
-            return self.title
+    def __str__(self):
+        return self.title
 
-        def save(self, *args, **kwargs):
-            self.slug = slugify(self.title)
-            super(ArticlePost, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(ArticlePost, self).save(*args, **kwargs)
 
-        def get_absolute_url(self):
-            return reverse("article:article_detail", args=[self.id, self.slug])
+    def get_absolute_url(self):
+        """要得到相应文章的路径"""
+        return reverse("article:article_detail", args=[self.id, self.slug])
 
 

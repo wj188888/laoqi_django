@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import ArticleColumn
+from .models import ArticleColumn, ArticlePost
 from .forms import ArticleColumnForm, ArticlePostForm
+from django.shortcuts import get_object_or_404
 
 @login_required(login_url='/account/login/')
 @csrf_exempt
@@ -53,4 +54,33 @@ def del_article_column(request):
 @csrf_exempt
 def article_post(request):
     if request.method == 'POST':
-        article_post_form = Art
+        article_post_form = ArticlePostForm(data=request.POST)
+        if article_post_form.is_valid():
+            cd = article_post_form.cleaned_data
+            try:
+                new_article = article_post_form.save(commit=False)
+                new_article.author = request.user
+                new_article.column = request.user.article_column.get(
+                    id=request.POST['column_id'],)
+                new_article.save()
+                return HttpResponse("1")
+            except:
+                return HttpResponse("2")
+        else:
+            return HttpResponse("3")
+    else:
+        article_post_form = ArticlePostForm()
+        article_columns = request.user.article_column.all()
+        return render(request, "article/column/article_post.html",
+                      {"article_post_form": article_post_form,
+                       "article_columns": article_columns})
+
+@login_required(login_url='/account/login')
+def article_list(request):
+    articles = ArticlePost.objects.filter(author=request.user)
+    return render(request, "article/column/article_list.html", {"articles": articles})
+
+@login_required(login_url='/account/login')
+def article_detail(request, id, slug):
+    article = get_object_or_404(ArticlePost, id=id, slug=slug)
+    return render(request, "article/column/article_detail.html")

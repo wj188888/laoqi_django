@@ -11,25 +11,25 @@
     {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
-    <p>Input your username and password</p>‘
+    <p>Input your username and password</p>
 
     {% if next %} <!-- 新增-->
-    <form class="form-horizontal" action="{% url 'account:user_login' %}? next={{next}}" method="post">
+        <form class="form-horizontal" action="{% url 'account:user_login' %}? next={{next}}" method="post">
     {% else %}
-    <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">
+        <form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">
     {% endif %}
         {% csrf_token %}
         <div class="form-group">
-            <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" style="color:red">
+            <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" style="color:black">
 <!--                <span class="glyphicon glyphicon-user"></span>-->
-                Username
+                Username:
             </label>
             <div class="col-md-6 text-left">{{ form.username }}</div>
         </div>
         <div>
-            <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" style="color:blue">
+            <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" style="color:black">
 <!--                <span class="glyphicon glyphicon-floppy-open"></span>-->
-                Password
+                Password:
             </label>
             <div class="col-md-6 text-left">{{ form.password }}</div>
         </div>

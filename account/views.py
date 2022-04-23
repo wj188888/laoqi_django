@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 
 from django.http import HttpResponse
@@ -28,6 +30,34 @@ def user_login(request):
     if request.method == "GET":
         login_form = LoginForm()
         return render(request, "account/login.html", {"form": login_form})
+
+def user_update_pwd(request):
+    user = request.user
+
+    password_dict = json.loads(request.body)
+
+    old_password = password_dict.get('old_password')
+    new_password1 = password_dict.get('new_password1')
+    new_password2 = password_dict.get('new_password2')
+
+    if not all([old_password, new_password1, new_password2]):
+        return JsonResponse({'code': 400, 'msg': "参数错误"})
+
+    if old_password == new_password1:
+        return JsonResponse({'code': 400, 'msg': '设置密码不可以和旧密码一样'})
+
+    if new_password1 != new_password2:
+        return JsonResponse({'code': 400, 'msg': '两次密码不一致'})
+
+    is_true_password = check_password(old_password, user.password)
+    if not is_true_password:
+        return JsonResponse({'code': 400, 'msg': '当前密码输入不正确'})
+
+    user.set_password(new_password1)
+    user.save()
+    ret = JsonResponse({'code': 200, 'msg': '修改密码成功'})
+    # ret.delete_cookie('username')
+    return ret
 
 def user_logout(request):
     login_form = LoginForm()
