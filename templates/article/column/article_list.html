@@ -14,11 +14,17 @@
         <tr id="{{ article.id }}">
             <td>{{ forloop.counter }}</td>
             <td>{{ article.title }}</td>
-            <td><span class="glyphicon glyphicon-pencil">{{ article.column }}</span></td>
+            <td><a name="edit" href="{% url 'article:redit_article' article.id %}">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a></td>
             <td><span class="glyphicon glyphicon-trash" style="margin-left:20px;">{{ article.column }}</span></td>
             <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
         </tr>
         {% endfor %}
     </table>
+    {% include "paginator.html" %}
 </div>
+<script type="text/javascript" src='{% static "js/jquery.js" %}'></script>
+<script type="text/javascript" src='{% static "js/layer.js" %}'></script>
+<script type="text/javascript" src='{% static "js/del_article" %}'></script>
 <% endblock %>
