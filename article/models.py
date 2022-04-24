@@ -36,4 +36,8 @@ class ArticlePost(models.Model):
         """要得到相应文章的路径"""
         return reverse("article:article_detail", args=[self.id, self.slug])
 
+    def get_url_path(self):
+        """获取url的反射"""
+        return reverse("article:article_content", args=[self.id, self.slug])
+
 
