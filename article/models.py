@@ -21,6 +21,8 @@ class ArticlePost(models.Model):
     body = models.TextField()
     created = models.DateTimeField(default=timezone.now) # 默认的文章发布时间
     updated = models.DateTimeField(auto_now=True)
+    users_like = models.ManyToManyField(User, related_name="articles_like", blank=True)
+
     class Meta:
         ordering = ("title", )
         index_together = (('id', 'slug')) # 对数据库这两个字段建立索引，在后面，会通过每篇文章的id和slug获取该文章对象

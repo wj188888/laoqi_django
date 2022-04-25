@@ -100,7 +100,8 @@ STATICFILES_DIRS = [
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 #登录后重定向到http://127.0.0.1/blog/页面
-LOGIN_REDIRECT_URL = '/blog/'
+LOGIN_REDIRECT_URL = '/home/'
+# LOGIN_REDIRECT_URL = '/blog/'
 
 # 防止没有登录修改密码，跳转到django默认页面，报错,这样可以直接调到登录界面，省去了后续的麻烦
 LOGIN_URL = '/account/login/'

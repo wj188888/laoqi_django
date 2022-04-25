@@ -1,7 +1,6 @@
 import json
 
 from django.shortcuts import render
-
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, RegistrationForm, UserProfileForm
@@ -12,6 +11,9 @@ from django.contrib.auth.models import User
 # 个人信息的编辑, HttpResponseRedirect实现URL转向，修改用户信息后，就跳转到用户的自己的信息来的
 from django.http import HttpResponseRedirect
 from .forms import UserProfileForm, UserInfoForm, UserForm
+
+# 注册后跳转页面导入
+from django.urls import reverse
 
 def user_login(request):
     if request.method == "POST":
@@ -74,7 +76,8 @@ def user_register(request):
             new_profile = userprofile_form.save(commit=False)
             new_profile.user = new_user
             new_profile.save()
-            return HttpResponse("successfully")
+            # return HttpResponse("successfully")
+            return HttpResponseRedirect(reverse("account:user_login"))
         else:
             return HttpResponse("sorry, your can not register.")
     else:
