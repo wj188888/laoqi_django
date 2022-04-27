@@ -10,6 +10,14 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+# 添加评论
+from .models import Comment
+from .forms import CommentForm
+
+import redis
+from django.conf import settings
+r = redis.StrictRedis(host=settings.REDIS_HOST,port=settings.REDIS_PORT,db=settings.REDIS_DB)
+
 def article_titles(request, username=None):
     """获取所有文章内容，如果给了username是筛选某一个作者的所有文章"""
     # 新增查看某一作者的文章列表
@@ -43,8 +51,23 @@ def article_titles(request, username=None):
 
 def article_detail(request, id, slug):
     article = get_object_or_404(ArticlePost, id=id, slug=slug)
+    total_views = r.incr("article:{}:views".format(article.id))
+    r.zincrby('article_ranking', 1, article.id)
+    article_ranking = r.zrange('article_rangking', 0, -1, desc=True)[:10]
+    article_ranking_ids = [int(id) for id in article_ranking]
+    most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))
+    most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
+    most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.article = article
+            new_comment.save()
+        else:
+            comment_form = CommentForm()
     return render(request, "article/list/article_content.html",
-                  {"article": article})
+                  {"article": article, "total_views":total_views, "most_viewed": most_viewed, "comment_form": comment_form})
 
 @csrf_exempt
 @require_POST

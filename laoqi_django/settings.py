@@ -115,3 +115,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "572534940@qq.com"
 # 将邮件直接显示在控制台
 # EMAIL_BACKED='django.core.mail.backends.console.EmailBackend'
+
+# 配置redis
+REDIS_HOST = '192.168.10.70'
+REDIS_PORT = 6379
+REDIS_DB = 15

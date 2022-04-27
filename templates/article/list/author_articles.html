@@ -20,6 +20,7 @@
             <p class="list-group-item-text">概要:
                 {{ article.body|slice:'70'|linebreaks }}
             </p>
+
         </div>
         {% endfor %}
     {% include "paginator.html" %}
@@ -34,6 +35,7 @@
         </div>
         <div>
             <p>{{ user.username }}</p>
+            <p>共发表文章{% author_total_articles user %}篇</p>
         {% if userinfo %}
             <p>{{ userinfo.company }}</p>
             <p>{{ userinfo.aboutme }}</p>
